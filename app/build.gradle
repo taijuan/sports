@@ -1,0 +1,114 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.0"
+    defaultConfig {
+        applicationId "com.sports"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+    }
+    signingConfigs {
+        release {
+            storeFile file('store.jks')
+            keyAlias "store"
+            keyPassword "123456"
+            storePassword "123456"
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        android.applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "${project.name}-${name}-${defaultConfig.versionName}.apk"
+            }
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation "androidx.core:core-ktx:1.0.2"
+    implementation("androidx.core:core:1.0.2") {
+        force = true
+    }
+    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    implementation "androidx.lifecycle:lifecycle-common:2.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+
+    /**
+     * okhttp square出品
+     */
+    implementation "com.squareup.okhttp3:okhttp:3.14.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.14.2"
+    implementation "com.squareup.okio:okio:2.2.2"
+
+    /**
+     * retrofit square出品
+     */
+    implementation "com.squareup.retrofit2:retrofit:2.6.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+
+    /**
+     * leakcanary square出品
+     */
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-alpha-2'
+
+    /**
+     * Gson google出品
+     */
+    implementation "com.google.code.gson:gson:2.8.5"
+
+    /**
+     * Glide google出品
+     */
+    implementation "com.github.bumptech.glide:glide:4.9.0"
+    kapt "com.github.bumptech.glide:compiler:4.9.0"
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.9.0"
+
+    /**
+     * qmui腾讯出品
+     */
+    implementation "com.qmuiteam:qmui:1.2.0"
+    implementation "com.qmuiteam:arch:0.3.1"
+
+    /**
+     * https://scwang90.github.io/ 开源
+     */
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-andx-11'
+//    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-11'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation('com.aliyun.ams:alicloud-android-httpdns:+') {
+        transitive true
+    }
+    implementation(name: "AlivcPlayer-3.4.10", ext: "aar")
+    implementation(name: "AlivcReporter-1.2", ext: "aar")
+}
