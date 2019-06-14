@@ -107,9 +107,10 @@ class MainActivity : BaseActivity() {
 
     private fun test() {
         val key = "sfci50a7s30ti"
+        val secret = "yfBWB8ufYn82G"
         val round = (random() * 10000).toInt().toString()
         val time = System.currentTimeMillis().toString()
-        val signature = EncryptUtils.encryptSHA1ToString("$key$round$time")
+        val signature = EncryptUtils.encryptSHA1ToString("$secret$round$time")
         rongYunService.getUserToken(key, time, round, signature, "zuiweng").observe(this, Observer {
             when (it) {
                 is Success<UserToken> -> {
