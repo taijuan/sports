@@ -9,9 +9,12 @@ import com.sports.adapter.NewsAdapter
 import com.sports.api.Error
 import com.sports.api.Success
 import com.sports.api.rongYunService
+import com.sports.api.wangYiService
 import com.sports.base.BaseActivity
 import com.sports.model.PageState
-import com.sports.model.UserToken
+import com.sports.model.WangYiBaseRes
+import com.sports.model.WangYiUser
+import com.sports.model.YongYunUser
 import com.sports.utils.EncryptUtils
 import com.sports.utils.logE
 import com.sports.viewmodel.NewsDataViewModel
@@ -103,6 +106,8 @@ class MainActivity : BaseActivity() {
         }
 
         test()
+        testWY()
+        testWYCreateChatRoom()
     }
 
     private fun test() {
@@ -113,14 +118,51 @@ class MainActivity : BaseActivity() {
         val signature = EncryptUtils.encryptSHA1ToString("$secret$round$time")
         rongYunService.getUserToken(key, time, round, signature, "zuiweng").observe(this, Observer {
             when (it) {
-                is Success<UserToken> -> {
+                is Success<YongYunUser> -> {
                     it.logE()
                 }
-                is Error<UserToken> -> {
+                is Error<YongYunUser> -> {
                     it.errorMsg.logE()
                 }
             }
         })
+    }
+
+    private fun testWY() {
+        val key = "a1d683a6e5e9fae6b89d9868e3efedec"
+        val secret = "a1ac6e0812a8"
+        val nonce = (random() * 10000).toInt().toString()
+        val curTime = System.currentTimeMillis().toString()
+        val sha1 = EncryptUtils.encryptSHA1ToString("$secret$nonce$curTime").toLowerCase()
+        wangYiService.createWYUser(key, curTime, nonce, sha1, "zuiweng2").observe(this, Observer {
+            when (it) {
+                is Success<WangYiBaseRes<WangYiUser>> -> {
+                    it.logE()
+                }
+                is Error<WangYiBaseRes<WangYiUser>> -> {
+                    it.errorMsg.logE()
+                }
+            }
+        })
+    }
+
+    private fun testWYCreateChatRoom() {
+        val key = "a1d683a6e5e9fae6b89d9868e3efedec"
+        val secret = "a1ac6e0812a8"
+        val nonce = (random() * 10000).toInt().toString()
+        val curTime = System.currentTimeMillis().toString()
+        val sha1 = EncryptUtils.encryptSHA1ToString("$secret$nonce$curTime").toLowerCase()
+        wangYiService.createChatRoom(key, curTime, nonce, sha1, "zuiweng", "zuiweng's chat room")
+            .observe(this, Observer {
+                when (it) {
+                    is Success<WangYiBaseRes<WangYiUser>> -> {
+                        it.logE()
+                    }
+                    is Error<WangYiBaseRes<WangYiUser>> -> {
+                        it.errorMsg.logE()
+                    }
+                }
+            })
     }
 
 }

@@ -25,6 +25,8 @@ class HttpDns : Dns {
         return if (ip.isNullOrEmpty()) {
             Dns.SYSTEM.lookup(hostname)
         } else {
+            "hostname -> $hostname".logE()
+            "ip -> $ip".logE()
             arrayListOf(InetAddress.getByName(ip))
         }
     }
