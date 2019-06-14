@@ -1,6 +1,5 @@
 package com.sports.viewmodel
 
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +12,7 @@ import com.sports.model.BaseResObj
 import com.sports.model.News
 import com.sports.model.PageData
 import com.sports.model.PageState
+import com.sports.utils.logInfo
 
 class NewsDataViewModel : ViewModel() {
     private var data: PageData<News> = PageData(mutableListOf(), 1, 1)
@@ -89,7 +89,7 @@ class NewsDataViewModel : ViewModel() {
 
     override fun onCleared() {
         data.dataList.clear()
+        "$javaClass ->onCleared".logInfo()
         super.onCleared()
-        Log.e("zuiweng", "onCleared")
     }
 }

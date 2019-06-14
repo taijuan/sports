@@ -1,7 +1,6 @@
 package com.sports.utils
 
 import android.app.Application
-import android.util.Log
 import com.alibaba.sdk.android.httpdns.HttpDns
 import com.alibaba.sdk.android.httpdns.HttpDnsService
 import okhttp3.Dns
@@ -23,9 +22,11 @@ fun Application.initHttpDns() {
 class HttpDns : Dns {
     override fun lookup(hostname: String): MutableList<InetAddress> {
         val ip = httpDns.getIpByHostAsync(hostname)
-        ip ?: hostname
-        Log.e("zuiweng", "ip -> $ip")
-        return Dns.SYSTEM.lookup(ip)
+        return if (ip.isNullOrEmpty()) {
+            Dns.SYSTEM.lookup(hostname)
+        } else {
+            arrayListOf(InetAddress.getByName(ip))
+        }
     }
 
 }

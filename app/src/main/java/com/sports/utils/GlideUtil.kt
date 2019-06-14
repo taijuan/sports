@@ -28,9 +28,10 @@ class GlideUtil : AppGlideModule() {
                     .disallowHardwareConfig()
             )
             builder.setLogLevel(Log.DEBUG)
-            Log.e("zuiweng", "xxxxxxxxx")
+            "$javaClass 初始化成功".logE()
         } catch (e: Exception) {
-            Log.e("GlideOnAndroid7.0Error", "zuiweng", e)
+            "$javaClass 初始化失败".logE()
+            e.logT()
         }
     }
 }

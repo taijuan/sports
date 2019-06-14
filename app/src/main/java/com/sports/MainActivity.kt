@@ -6,11 +6,18 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper
 import com.sports.adapter.NewsAdapter
+import com.sports.api.Error
+import com.sports.api.Success
+import com.sports.api.rongYunService
 import com.sports.base.BaseActivity
 import com.sports.model.PageState
+import com.sports.model.UserToken
+import com.sports.utils.EncryptUtils
+import com.sports.utils.logE
 import com.sports.viewmodel.NewsDataViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_refresh_and_load_more.*
+import java.lang.Math.random
 
 class MainActivity : BaseActivity() {
 
@@ -94,5 +101,25 @@ class MainActivity : BaseActivity() {
         smartRefreshLayout.setOnLoadMoreListener {
             newsDataViewModel.loadMore(this, "asia", 1)
         }
+
+        test()
     }
+
+    private fun test() {
+        val key = "sfci50a7s30ti"
+        val round = (random() * 10000).toInt().toString()
+        val time = System.currentTimeMillis().toString()
+        val signature = EncryptUtils.encryptSHA1ToString("$key$round$time")
+        rongYunService.getUserToken(key, time, round, signature, "zuiweng").observe(this, Observer {
+            when (it) {
+                is Success<UserToken> -> {
+                    it.logE()
+                }
+                is Error<UserToken> -> {
+                    it.errorMsg.logE()
+                }
+            }
+        })
+    }
+
 }
