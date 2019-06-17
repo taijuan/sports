@@ -12,4 +12,5 @@ fun initOkHttp() {
         })
         .dns(HttpDns())
         .build()
+    "OkHttp 初始化成功".logE()
 }

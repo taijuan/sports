@@ -2,6 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="QMUI.Compat.NoActionBar">
+        <!-- 配置Android提供的theme -->
         <item name="QMUITopBarStyle">@style/QDTopBar</item>
     </style>
     <style name="QDTopBar" parent="QMUI.TopBar">

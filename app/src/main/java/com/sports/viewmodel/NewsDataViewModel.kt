@@ -16,9 +16,10 @@ import com.sports.utils.logInfo
 
 class NewsDataViewModel : ViewModel() {
     private var data: PageData<News> = PageData(mutableListOf(), 1, 1)
-    val firstData = MutableLiveData<PageData<News>>()
-    val refreshData = MutableLiveData<PageData<News>>()
-    val loadMoreData = MutableLiveData<PageData<News>>()
+    val firstData = MutableLiveData<List<News>>()
+    val refreshData = MutableLiveData<List<News>>()
+    val loadMoreData = MutableLiveData<List<News>>()
+    val state = MutableLiveData<PageState>()
 
     @MainThread
     fun firstLoad(owner: LifecycleOwner, code: String, type: Int) {
@@ -27,17 +28,17 @@ class NewsDataViewModel : ViewModel() {
                 is Success<BaseResObj<PageData<News>>> -> {
                     val a = it.body.data
                     this.data = a
-                    when {
-                        a.dataList.isNullOrEmpty() -> a.state = PageState.Empty
-                        a.totalPage > a.curPage -> a.state = PageState.LoadMore
-                        else -> a.state = PageState.LoadMore
+                    if (!a.dataList.isNullOrEmpty()) {
+                        firstData.postValue(a.dataList)
                     }
-                    firstData.postValue(a)
+                    when {
+                        a.dataList.isNullOrEmpty() -> state.postValue(PageState.FirstEmpty)
+                        a.totalPage > a.curPage -> state.postValue(PageState.FirstLoadMore)
+                        else -> state.postValue(PageState.FirstLoadMoreNoData)
+                    }
                 }
                 is Error<BaseResObj<PageData<News>>> -> {
-                    this.data.errorMsg = it.errorMsg
-                    this.data.state = PageState.Error
-                    firstData.postValue(this.data)
+                    state.postValue(PageState.FirstError)
                 }
             }
         })
@@ -50,16 +51,17 @@ class NewsDataViewModel : ViewModel() {
                 is Success<BaseResObj<PageData<News>>> -> {
                     val a = it.body.data
                     this.data = a
-                    when {
-                        a.totalPage > a.curPage -> a.state = PageState.LoadMore
-                        else -> a.state = PageState.LoadMore
+                    if (!a.dataList.isNullOrEmpty()) {
+                        refreshData.postValue(a.dataList)
                     }
-                    refreshData.postValue(a)
+                    when {
+                        a.dataList.isNullOrEmpty() -> state.postValue(PageState.RefreshEmpty)
+                        a.totalPage > a.curPage -> state.postValue(PageState.RefreshLoadMore)
+                        else -> state.postValue(PageState.RefreshLoadMoreNoData)
+                    }
                 }
                 is Error<BaseResObj<PageData<News>>> -> {
-                    this.data.errorMsg = it.errorMsg
-                    this.data.state = PageState.Error
-                    refreshData.postValue(this.data)
+                    state.postValue(PageState.RefreshError)
                 }
             }
         })
@@ -72,16 +74,16 @@ class NewsDataViewModel : ViewModel() {
                 is Success<BaseResObj<PageData<News>>> -> {
                     val a = it.body.data
                     this.data = a
-                    when {
-                        a.totalPage > a.curPage -> a.state = PageState.LoadMore
-                        else -> a.state = PageState.LoadMore
+                    if (!a.dataList.isNullOrEmpty()) {
+                        loadMoreData.postValue(a.dataList)
                     }
-                    loadMoreData.postValue(a)
+                    when {
+                        a.totalPage > a.curPage -> state.postValue(PageState.LoadMore)
+                        else -> state.postValue(PageState.LoadMoreNoData)
+                    }
                 }
                 is Error<BaseResObj<PageData<News>>> -> {
-                    this.data.errorMsg = it.errorMsg
-                    this.data.state = PageState.Error
-                    loadMoreData.postValue(this.data)
+                    state.postValue(PageState.LoadError)
                 }
             }
         })

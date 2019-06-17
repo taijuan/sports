@@ -1,6 +1,7 @@
 package com.sports
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +20,7 @@ import com.sports.utils.EncryptUtils
 import com.sports.utils.logE
 import com.sports.viewmodel.NewsDataViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.include_refresh_and_load_more.*
+import kotlinx.android.synthetic.main.include_refresh.*
 import java.lang.Math.random
 
 class MainActivity : BaseActivity() {
@@ -34,65 +35,83 @@ class MainActivity : BaseActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val newsDataViewModel = ViewModelProviders.of(this).get(NewsDataViewModel::class.java)
-        newsDataViewModel.firstData.observe(this, Observer {
-            when (it.state) {
-                PageState.Empty -> {
+        newsDataViewModel.state.observe(this, Observer {
+            it.logE()
+            when (it) {
+                PageState.FirstLoadMore -> {
+                    emptyView.hide()
+                    smartRefreshLayout.visibility = View.VISIBLE
+                    smartRefreshLayout.finishRefresh()
+                    smartRefreshLayout.finishLoadMore()
+                }
+                PageState.FirstLoadMoreNoData -> {
+                    emptyView.hide()
+                    smartRefreshLayout.visibility = View.VISIBLE
+                    smartRefreshLayout.finishRefresh()
+                    smartRefreshLayout.finishLoadMoreWithNoMoreData()
+                }
+                PageState.FirstEmpty -> {
                     emptyView.show(false, "数据为空", null, "点击重试") {
                         newsDataViewModel.firstLoad(this, "asia", 1)
                         emptyView.show(true)
                     }
                 }
-                PageState.LoadMore -> {
-                    emptyView.hide()
-                    adapter.refresh(it.dataList)
-                    smartRefreshLayout.finishRefresh()
-                    smartRefreshLayout.finishLoadMore()
-                }
-                PageState.LoadMoreNoData -> {
-                    emptyView.hide()
-                    adapter.refresh(it.dataList)
-                    smartRefreshLayout.finishRefresh()
-                    smartRefreshLayout.finishLoadMoreWithNoMoreData()
-                }
-                PageState.Error -> {
-                    emptyView.show(false, "加载失败", null, "点击重试") {
+                PageState.FirstError -> {
+                    emptyView.show(false, "请求失败", null, "点击重试") {
                         newsDataViewModel.firstLoad(this, "asia", 1)
                         emptyView.show(true)
                     }
                 }
-            }
-        })
-        newsDataViewModel.refreshData.observe(this, Observer {
-            when (it.state) {
-                PageState.LoadMore -> {
-                    adapter.refresh(it.dataList)
+                PageState.RefreshLoadMore -> {
+                    emptyView.hide()
+                    smartRefreshLayout.visibility = View.VISIBLE
                     smartRefreshLayout.finishRefresh()
                     smartRefreshLayout.finishLoadMore()
                 }
-                PageState.LoadMoreNoData -> {
-                    adapter.refresh(it.dataList)
+                PageState.RefreshLoadMoreNoData -> {
+                    emptyView.hide()
+                    smartRefreshLayout.visibility = View.VISIBLE
                     smartRefreshLayout.finishRefresh()
                     smartRefreshLayout.finishLoadMoreWithNoMoreData()
                 }
-                else -> {
+                PageState.RefreshEmpty -> {
+                    emptyView.hide()
+                    emptyView.show(false, "数据为空", null, "点击重试") {
+                        newsDataViewModel.firstLoad(this, "asia", 1)
+                        emptyView.show(true)
+                    }
+                    smartRefreshLayout.visibility = View.VISIBLE
+                    smartRefreshLayout.finishRefresh()
+                    smartRefreshLayout.finishLoadMoreWithNoMoreData()
+                }
+                PageState.RefreshError -> {
+                    emptyView.hide()
+                    smartRefreshLayout.visibility = View.VISIBLE
                     smartRefreshLayout.finishRefresh(false)
                 }
-            }
-        })
-        newsDataViewModel.loadMoreData.observe(this, Observer {
-            when (it.state) {
                 PageState.LoadMore -> {
-                    adapter.loadMore(it.dataList)
                     smartRefreshLayout.finishLoadMore()
                 }
                 PageState.LoadMoreNoData -> {
-                    adapter.loadMore(it.dataList)
                     smartRefreshLayout.finishLoadMoreWithNoMoreData()
                 }
-                else -> {
+                PageState.LoadError -> {
                     smartRefreshLayout.finishLoadMore(false)
                 }
+                else -> {
+                }
             }
+        })
+        newsDataViewModel.firstData.observe(this, Observer {
+            smartRefreshLayout.visibility = View.VISIBLE
+            adapter.refresh(it)
+        })
+        newsDataViewModel.refreshData.observe(this, Observer {
+            smartRefreshLayout.visibility = View.VISIBLE
+            adapter.refresh(it)
+        })
+        newsDataViewModel.loadMoreData.observe(this, Observer {
+            adapter.loadMore(it)
         })
         emptyView.show(true)
         emptyView.post {

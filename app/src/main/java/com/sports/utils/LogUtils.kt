@@ -1,9 +1,19 @@
 package com.sports.utils
 
 import android.util.Log
+import androidx.annotation.Keep
+import com.sports.BuildConfig
 
 const val TAG = "LogUtils"
-var debug = true
+private var debug = BuildConfig.DEBUG
+/**
+ * 日志开关
+ */
+@Keep
+fun setDebug() {
+    debug = true
+}
+
 fun Any.logE() {
     if (debug) {
         Log.e(TAG, "$this")

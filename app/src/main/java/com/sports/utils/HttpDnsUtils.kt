@@ -16,6 +16,7 @@ fun Application.initHttpDns() {
         setExpiredIPEnabled(true)
         setLogEnabled(true)
         setHTTPSRequestEnabled(true)
+        "HttpDns 初始化成功".logE()
     }
 }
 
