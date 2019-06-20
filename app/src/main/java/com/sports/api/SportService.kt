@@ -109,6 +109,6 @@ interface SportService {
 
     @POST("user/regUserByPhone")
     fun testRegApi(
-        @Body map: Any
+        @Body map: BaseReq
     ): LiveData<SuccessError<BaseRes<String>>>
 }
