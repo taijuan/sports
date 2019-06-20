@@ -195,7 +195,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun testRegApi() {
-        val req = BaseReq("1", "123", "15528363539", "123456", "12345678", "12")
+        val req = RegReq("15528363539", "123456", "12345678", "12")
         testService.testRegApi(req).observe(this, Observer {
             when (it) {
                 is Success<BaseRes<String>> -> {
