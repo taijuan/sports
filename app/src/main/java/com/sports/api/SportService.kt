@@ -4,11 +4,7 @@ import androidx.lifecycle.LiveData
 import com.sports.model.*
 import com.sports.utils.okHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 val sportService: SportService by lazy {
     Retrofit.Builder().baseUrl("https://api.cdeclips.com/hknews-api/")
@@ -43,8 +39,6 @@ val testService: SportService by lazy {
         .build()
         .create(SportService::class.java)
 }
-//http://3.113.59.250/sport-api/
-//https://api.netease.im/nimserver/user/update.action
 
 val wangYiService: SportService by lazy {
     Retrofit.Builder().baseUrl("https://api.netease.im/")
@@ -107,9 +101,14 @@ interface SportService {
     ): LiveData<SuccessError<WangYiBaseRes<WangYiUser>>>
 
 
-    @FormUrlEncoded
-    @POST("user/getRegCode")
+    @POST("sms/getRegCode")
+    @Headers("Content-Type:text/plain")
     fun testApi(
-        @Field("phone") phone: String
+        @Body map: String
+    ): LiveData<SuccessError<BaseRes<String>>>
+
+    @POST("user/regUserByPhone")
+    fun testRegApi(
+        @Body map: Any
     ): LiveData<SuccessError<BaseRes<String>>>
 }

@@ -122,6 +122,7 @@ class MainActivity : BaseActivity() {
         testWY()
         testWYCreateChatRoom()
         testApi()
+        testRegApi()
     }
 
     private fun test() {
@@ -180,7 +181,22 @@ class MainActivity : BaseActivity() {
     }
 
     private fun testApi() {
-        testService.testApi("15528363539").observe(this, Observer {
+        val phone = "15528363539"
+        testService.testApi(phone).observe(this, Observer {
+            when (it) {
+                is Success<BaseRes<String>> -> {
+                    it.logE()
+                }
+                is Error<BaseRes<String>> -> {
+                    it.errorMsg.logE()
+                }
+            }
+        })
+    }
+
+    private fun testRegApi() {
+        val req = BaseReq("1", "123", "15528363539", "123456", "12345678", "12")
+        testService.testRegApi(req).observe(this, Observer {
             when (it) {
                 is Success<BaseRes<String>> -> {
                     it.logE()
