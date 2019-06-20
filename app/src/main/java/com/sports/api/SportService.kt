@@ -31,6 +31,19 @@ val rongYunService: SportService by lazy {
         .build()
         .create(SportService::class.java)
 }
+
+
+val testService: SportService by lazy {
+    Retrofit.Builder().baseUrl("http://3.113.59.250/sport-api/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(createCallAdapterFactory())
+        .callFactory(
+            okHttpClient
+        )
+        .build()
+        .create(SportService::class.java)
+}
+//http://3.113.59.250/sport-api/
 //https://api.netease.im/nimserver/user/update.action
 
 val wangYiService: SportService by lazy {
@@ -92,4 +105,11 @@ interface SportService {
         @Field("creator") chatRoomId: String,
         @Field("name") name: String
     ): LiveData<SuccessError<WangYiBaseRes<WangYiUser>>>
+
+
+    @FormUrlEncoded
+    @POST("user/getRegCode")
+    fun testApi(
+        @Field("phone") phone: String
+    ): LiveData<SuccessError<BaseRes<String>>>
 }

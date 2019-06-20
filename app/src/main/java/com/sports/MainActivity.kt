@@ -7,15 +7,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper
 import com.sports.adapter.NewsAdapter
-import com.sports.api.Error
-import com.sports.api.Success
-import com.sports.api.rongYunService
-import com.sports.api.wangYiService
+import com.sports.api.*
 import com.sports.base.BaseActivity
-import com.sports.model.PageState
-import com.sports.model.WangYiBaseRes
-import com.sports.model.WangYiUser
-import com.sports.model.YongYunUser
+import com.sports.model.*
 import com.sports.utils.EncryptUtils
 import com.sports.utils.logE
 import com.sports.viewmodel.NewsDataViewModel
@@ -127,6 +121,7 @@ class MainActivity : BaseActivity() {
         test()
         testWY()
         testWYCreateChatRoom()
+        testApi()
     }
 
     private fun test() {
@@ -184,4 +179,16 @@ class MainActivity : BaseActivity() {
             })
     }
 
+    private fun testApi() {
+        testService.testApi("15528363539").observe(this, Observer {
+            when (it) {
+                is Success<BaseRes<String>> -> {
+                    it.logE()
+                }
+                is Error<BaseRes<String>> -> {
+                    it.errorMsg.logE()
+                }
+            }
+        })
+    }
 }

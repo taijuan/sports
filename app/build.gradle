@@ -106,9 +106,15 @@ dependencies {
 //    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-andx-11'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation('com.aliyun.ams:alicloud-android-httpdns:+') {
+    /**
+     * httpDns 阿里云出品
+     */
+    implementation('com.aliyun.ams:alicloud-android-httpdns:1.2.5@aar') {
         transitive true
     }
+    /**
+     * player 阿里云出品
+     */
     implementation(name: "AlivcPlayer-3.4.10", ext: "aar")
     implementation(name: "AlivcReporter-1.2", ext: "aar")
 }
