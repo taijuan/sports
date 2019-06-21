@@ -14,21 +14,21 @@ fun setDebug() {
     debug = true
 }
 
-fun Any.logE() {
+fun Any.logE(name: Any = "") {
     if (debug) {
-        Log.e(TAG, "$this")
+        Log.e(TAG, "$name$this")
     }
 }
 
-fun Any.logInfo() {
+fun Any.logInfo(name: Any = "") {
     if (debug) {
-        Log.i(TAG, "$this")
+        Log.i(TAG, "$name$this")
     }
 }
 
 
-fun Throwable.logT() {
+fun Throwable.logT(name: Any = "") {
     if (debug) {
-        Log.e(TAG, "$this", this)
+        Log.e(TAG, "$name", this)
     }
 }

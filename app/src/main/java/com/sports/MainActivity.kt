@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper
 import com.sports.adapter.NewsAdapter
 import com.sports.api.*
+import com.sports.app.app
 import com.sports.base.BaseActivity
 import com.sports.model.*
 import com.sports.utils.EncryptUtils
 import com.sports.utils.logE
 import com.sports.viewmodel.NewsDataViewModel
+import com.ut.device.UTDevice
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_refresh.*
 import java.lang.Math.random
@@ -123,6 +125,8 @@ class MainActivity : BaseActivity() {
         testWYCreateChatRoom()
         testApi()
         testRegApi()
+
+        UTDevice.getUtdid(app).logE("UUID: ")
     }
 
     private fun test() {

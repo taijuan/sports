@@ -9,8 +9,12 @@ import com.sports.utils.logE
 import com.sports.utils.setDebug
 
 @Keep
+lateinit var app: App
+
+@Keep
 class App : Application() {
     override fun onCreate() {
+        app = this
         initHttpDns()
         initOkHttp()
         QMUISwipeBackActivityManager.init(this)
