@@ -1,6 +1,8 @@
 package com.sports.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import com.sports.utils.uuid
 
 /**
  * {
@@ -13,8 +15,10 @@ import com.google.gson.annotations.SerializedName
 }
  */
 open class BaseReq {
+    @Keep
     @SerializedName("deviceType")
     val deviceType: String = "1"
+    @Keep
     @SerializedName("deviceUid")
-    val deviceUid: String = "deviceUid"
+    val deviceUid: String = uuid
 }

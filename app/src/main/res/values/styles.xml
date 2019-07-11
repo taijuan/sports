@@ -1,15 +1,25 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="QMUI.Compat.NoActionBar">
-        <!-- 配置Android提供的theme -->
-        <item name="QMUITopBarStyle">@style/QDTopBar</item>
-    </style>
-    <style name="QDTopBar" parent="QMUI.TopBar">
-        <item name="qmui_topbar_bg_color">@color/colorPrimary</item>
-        <item name="qmui_topbar_title_color">@color/qmui_config_color_white</item>
-        <item name="qmui_topbar_subtitle_color">@color/qmui_config_color_white</item>
+        <item name="QMUITopBarStyle">@style/TopBar</item>
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="qmui_topbar_height">48dp</item>
-        <item name="qmui_topbar_image_btn_height">48dp</item>
     </style>
+
+    <style name="WelcomeAppTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/welcome_background</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="TopBar" parent="QMUI.TopBar">
+        <item name="qmui_topbar_bg_color">@android:color/white</item>
+        <item name="qmui_topbar_title_color">@color/xg_ff666666</item>
+        <item name="qmui_topbar_subtitle_color">@color/xg_ff666666</item>
+        <item name="qmui_topbar_text_btn_color_state_list">@color/topbar_btn_text_color</item>
+        <item name="qmui_topbar_text_btn_text_size">17.3sp</item>
+        <item name="qmui_topbar_left_back_drawable_id">@drawable/xg_back</item>
+        <item name="qmui_topbar_need_separator">false</item>
+    </style>
+
 </resources>

@@ -10,7 +10,7 @@ private var debug = BuildConfig.DEBUG
  * 日志开关
  */
 @Keep
-fun setDebug() {
+fun setLogDebug() {
     debug = true
 }
 

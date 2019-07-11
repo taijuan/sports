@@ -13,7 +13,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:networkSecurityConfig="@xml/network_security_config"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme"
+            android:theme="@style/WelcomeAppTheme"
             tools:ignore="AllowBackup,UnusedAttribute">
 
         <meta-data android:name="android.notch_support"
@@ -25,7 +25,9 @@
         <meta-data android:name="notch.config"
                    android:value="portrait|landscape"/>
 
-        <activity android:name=".MainActivity">
+
+        <activity android:name=".WelcomeActivity"
+                  android:theme="@style/WelcomeAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -35,7 +37,12 @@
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SwipeActivity"/>
+        <activity android:name=".SwipeActivity"
+                  android:theme="@style/AppTheme"/>
+        <activity android:name=".MainActivity"
+                  android:theme="@style/AppTheme"/>
+        <activity android:name=".LoginActivity"
+                  android:theme="@style/AppTheme"/>
 
     </application>
 

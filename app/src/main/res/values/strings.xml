@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">sports</string>
+    <string name="reg">注册</string>
+    <string name="hint_phone">请输入手机号</string>
+    <string name="hint_code">获取验证码</string>
+    <string name="retry_code">(%ds)重新获取</string>
 </resources>

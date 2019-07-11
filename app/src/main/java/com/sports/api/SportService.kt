@@ -51,6 +51,7 @@ val wangYiService: SportService by lazy {
         .create(SportService::class.java)
 }
 
+
 interface SportService {
     /**
      * currentPage=$curPage&dataType=1
