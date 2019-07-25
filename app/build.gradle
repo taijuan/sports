@@ -115,5 +115,5 @@ dependencies {
      */
     implementation(name: "AlivcPlayer-3.4.10", ext: "aar")
     implementation(name: "AlivcReporter-1.2", ext: "aar")
-    implementation (name: 'alipaySdk-15.6.4-20190611174341', ext: 'aar')
+    implementation (name: 'alipaySdk-15.6.5-20190718211159-noUtdid', ext: 'aar')
 }
